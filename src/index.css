@@ -4031,4 +4031,16 @@ table.hover tr:nth-of-type(even):hover {
         -ms-flex-order: 6;
             order: 6; } }
 
+input {
+  background: transparent;
+  border-top: transparent !important;
+  border-left: transparent !important;
+  border-right: transparent !important;
+  border-bottom: transparent !important;
+  font-weight: 200;
+  color: white;
+  padding-left: 0;
+  box-shadow: none !important;
+}
+
 /*# sourceMappingURL=foundation-flex.css.map */
