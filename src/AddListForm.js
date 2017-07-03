@@ -20,9 +20,9 @@ export default class AddListForm extends Component {
     if (!name) return;
     this.setState({isSubmitting: true});
     return api.post(`/lists`, {name, contacts: []})
-    .then(_ => {
+    .then(response => {
       this.setState({isSubmitting: false});
-      this.props.onFinish();
+      this.props.onFinish(response.data);
       this.props.onClose();
     });
 

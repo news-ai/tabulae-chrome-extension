@@ -46,7 +46,7 @@ export default class AddContactForm extends Component {
       const list = response.data;
       this.setState({isSubmitting: false});
       this.props.onUpdateLists(list);
-      this.props.onAlert(`Contact added to List:${list.name}`);
+      this.props.onAlert(`Contact added to List: "${list.name}"`);
       this.props.onRefresh();
     });
   }

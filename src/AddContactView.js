@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
 import {normalize, schema} from 'normalizr';
 import 'react-select/dist/react-select.css';
 import * as api from './api';
@@ -46,6 +47,13 @@ export default class ListView extends Component {
     });
   }
 
+  onUpdateLists(list) {
+    this.setState({
+      lists: Object.assign({}, this.state.lists, {[list.id]: list}),
+      listIds: [list.id, ...this.state.listIds.filter(id => id !== list.id)]
+    });
+  }
+
   onListChange(list) {
     this.setState({
       selectedListId: list ? list.id : undefined,
@@ -60,7 +68,6 @@ export default class ListView extends Component {
 
   onAlert(message) {
     this.setState({alert: message});
-    setTimeout(_ => this.setState({alert: undefined}), 3000);
   }
 
   render() {
@@ -82,7 +89,10 @@ export default class ListView extends Component {
         <AddListForm
         style={{marginTop: 10}}
         onClose={_ => this.setState({showNewListView: false})}
-        onFinish={this.onFetchAllLists}
+        onFinish={list => {
+          this.onUpdateLists(list);
+          this.onAlert(`List: "${list.name}" created.`);
+        }}
         /> :
         <span
         className='right pointer'
@@ -90,11 +100,12 @@ export default class ListView extends Component {
         onClick={_ => this.setState({showNewListView: true})}
         >+ ADD NEW LIST</span>
       }
-      {alert &&
-        <div style={{display: 'fixed', zIndex: 100, width: '100%', height: 100, backgroundColor: 'lightgray'}} >
-          <span style={{fontSize: '2em'}}>{alert}</span>
-        </div>
-      }
+        <Snackbar
+        open={alert}
+        message={alert}
+        autoHideDuration={4000}
+        onRequestClose={_ => this.setState({alert: undefined})}
+        />
         <div style={{marginTop: 15}} >
       {
         fieldsmap && showListForm &&
@@ -102,7 +113,7 @@ export default class ListView extends Component {
           lists={lists}
           selectedListId={selectedListId}
           fieldsmap={fieldsmap}
-          onUpdateLists={list => this.setState({lists: Object.assign({}, this.state.lists, {[list.id]: list})})}
+          onUpdateLists={this.onUpdateLists}
           onRefresh={this.onAfterContactSubmit}
           onAlert={this.onAlert}
           />
