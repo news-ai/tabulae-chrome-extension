@@ -19,7 +19,7 @@ export default class SwitchTabContainer extends Component {
 
   render() {
     const {currentTab, refreshTab} = this.state;
-    const className = 'large-4 medium-4 small-4 columns pointer';
+    const className = 'large-6 medium-6 small-6 columns pointer';
     return (
       <div style={{height: '100%'}}>
         <div className='row' style={{

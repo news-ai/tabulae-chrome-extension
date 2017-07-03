@@ -7,6 +7,7 @@ import 'react-select/dist/react-select.css';
 import * as api from './api';
 import AddContactForm from './AddContactForm';
 import AddListForm from './AddListForm';
+import {grey600} from 'material-ui/styles/colors';
 // import {listObj} from './data';
 
 const listSchema = new schema.Entity('lists');
@@ -28,6 +29,7 @@ export default class ListView extends Component {
     };
     this.onListChange = this.onListChange.bind(this);
     this.onAfterContactSubmit = this.onAfterContactSubmit.bind(this);
+    this.onUpdateLists = this.onUpdateLists.bind(this);
     this.onAlert = this.onAlert.bind(this);
     this.onFetchAllLists = this.onFetchAllLists.bind(this);
   }
@@ -96,7 +98,7 @@ export default class ListView extends Component {
         /> :
         <span
         className='right pointer'
-        style={{fontSize: '0.7em'}}
+        style={{fontSize: '0.7em', color: grey600, margin: 5}}
         onClick={_ => this.setState({showNewListView: true})}
         >+ ADD NEW LIST</span>
       }
