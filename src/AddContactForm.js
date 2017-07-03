@@ -66,6 +66,7 @@ export default class AddContactForm extends Component {
           <RaisedButton
           primary
           label='Submit'
+          style={{zIndex: 0}}
           icon={<FontIcon className={this.state.isSubmitting ? 'fa fa-spinner fa-spin' : 'fa fa-arrow-up'} />}
           onClick={this.onSubmit}
           />

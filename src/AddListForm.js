@@ -36,6 +36,7 @@ export default class AddListForm extends Component {
         <TextField fullWidth ref='newListName'/>
         <div style={{margin: '10px 0'}} className='horizontal-center'>
           <RaisedButton
+          style={{zIndex: 0}}
           primary
           label='Submit'
           icon={<FontIcon className={this.state.isSubmitting ? 'fa fa-spinner fa-spin' : 'fa fa-arrow-up'} />}

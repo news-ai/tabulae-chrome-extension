@@ -8,6 +8,7 @@
     "material-ui": "^0.18.5",
     "mobx": "^3.1.16",
     "mobx-react": "^4.2.1",
+    "moment-timezone": "^0.5.13",
     "normalizr": "^3.2.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

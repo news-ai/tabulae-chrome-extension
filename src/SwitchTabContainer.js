@@ -6,7 +6,7 @@ export default class SwitchTabContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'AddContactView',
+      currentTab: 'EmailView',
       refreshTab: undefined
     };
     this.onRefresh = this.onRefresh.bind(this);
