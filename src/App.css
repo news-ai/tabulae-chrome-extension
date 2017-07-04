@@ -1,8 +1,8 @@
 .App {
   height: 500px;
   width: 400px;
-  border: 1px solid lightgray;
-  overflow-y: scroll;
+/*  border: 1px solid lightgray;
+*/  overflow-y: scroll;
 }
 
 .pointer {

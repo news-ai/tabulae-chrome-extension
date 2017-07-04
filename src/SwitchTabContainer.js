@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import {blue500} from 'material-ui/styles/colors';
 import AddContactView from './AddContactView';
 import EmailView from './EmailView';
 
@@ -6,7 +8,7 @@ export default class SwitchTabContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'EmailView',
+      currentTab: 'AddContactView',
       refreshTab: undefined
     };
     this.onRefresh = this.onRefresh.bind(this);
@@ -22,30 +24,20 @@ export default class SwitchTabContainer extends Component {
     const className = 'large-6 medium-6 small-6 columns pointer';
     return (
       <div style={{height: '100%'}}>
-        <div className='row' style={{
-          borderBottom: '1px solid gray',
-        }} >
-          <div
-          className={className}
-          style={{backgroundColor: currentTab === 'AddContactView' && 'lightblue'}}
-          onClick={_ => this.setState({currentTab: 'AddContactView'})}
-          >Add Contact</div>
-          <div
-          className={className}
-          style={{backgroundColor: currentTab === 'EmailView' && 'lightblue'}}
-          onClick={_ => this.setState({currentTab: 'EmailView'})}
-          >See Emails</div>
-        </div>
-        <div style={{margin: 8}}>
+        <Tabs tabItemContainerStyle={{backgroundColor: blue500}} >
+          <Tab label='Add Contact'>
           {
             refreshTab !== 'AddContactView' &&
-            <AddContactView onRefresh={_ => this.onRefresh('AddContactView')} style={{display: currentTab === 'AddContactView' ? 'block' : 'none', width: '100%'}} />
+            <AddContactView style={{margin: '0 5px'}} onRefresh={_ => this.onRefresh('AddContactView')} />
           }
+          </Tab>
+          <Tab label='Email QuickView'>
           {
             refreshTab !== 'EmailView' &&
-            <EmailView onRefresh={_ => this.onRefresh('EmailView')} style={{display: currentTab === 'EmailView' ? 'block' : 'none', width: '100%'}} />
+            <EmailView style={{margin: '0 5px'}} onRefresh={_ => this.onRefresh('EmailView')} />
           }
-        </div>
+          </Tab>
+        </Tabs>
       </div>
     );
   }

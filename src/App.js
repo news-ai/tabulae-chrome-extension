@@ -52,12 +52,13 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        {this.state.errorOn && <ErrorOverlay errorMessage={this.state.errorMessage} />}
-        {
-          this.state.loggedIn ?
-          <SwitchTabContainer /> :
-          <NotLoggedIn />
-        }
+      {this.state.errorOn &&
+        <ErrorOverlay errorMessage={this.state.errorMessage} />}
+      {
+        this.state.loggedIn ?
+        <SwitchTabContainer /> :
+        <NotLoggedIn />
+      }
       </div>
     );
   }
