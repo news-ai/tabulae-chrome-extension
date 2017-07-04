@@ -34,7 +34,7 @@ export default class SwitchTabContainer extends Component {
           <Tab label='Email QuickView'>
           {
             refreshTab !== 'EmailView' &&
-            <EmailView style={{margin: '0 5px'}} onRefresh={_ => this.onRefresh('EmailView')} />
+            <EmailView onRefresh={_ => this.onRefresh('EmailView')} />
           }
           </Tab>
         </Tabs>

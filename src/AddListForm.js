@@ -32,8 +32,7 @@ export default class AddListForm extends Component {
     return (
       <div style={this.props.style}>
         <FontIcon onClick={this.props.onClose} className='fa fa-times pointer' style={{float: 'right', fontSize: '0.9em', color: grey600}} />
-        <label style={{marginTop: 10}} >New List Name</label>
-        <TextField fullWidth ref='newListName'/>
+        <TextField style={{marginTop: 10}} fullWidth floatingLabelFixed floatingLabelText='New List Name'  ref='newListName'/>
         <div style={{margin: '10px 0'}} className='horizontal-center'>
           <RaisedButton
           style={{zIndex: 0}}

@@ -1,13 +1,21 @@
 {
   "manifest_version": 2,
 
-  "name": "Demo React-Chrome extension",
-  "description": "This extension shows how to run a React app as a Chrome extension",
+  "name": "NewsAI Tabulae QuickTab",
+  "description": "Tabulae QuickTab is meant for NewsAI Tabulae existing users to quickly add contacts and check email statistics on any webpage.",
   "version": "1.0",
-
   "browser_action": {
-    "default_icon": "logo_small.png",
+    "default_icon": {
+      "16": "icon_logo_16.png",
+      "48": "icon_logo_48.png",
+      "128": "icon_logo_64.png"
+    },
     "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "icon_logo_16.png",
+    "48": "icon_logo_48.png",
+    "128": "icon_logo_64.png"
   },
   "permissions": [
     "activeTab",

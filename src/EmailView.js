@@ -118,7 +118,7 @@ export default class EmailView extends Component {
     const {emailIds, emails, contacts, offset, isReceiving} = this.state;
     return (
       <div style={this.props.style}>
-        <div className='vertical-center'>
+        <div style={{margin: '0 5px'}} className='vertical-center'>
           <TextField id='searchValue' fullWidth floatingLabelFixed floatingLabelText='Search Emails' onKeyDown={this.onSearchKeyDown} placeholder='e.g. person@company.com' ref='searchValue' />
           <IconButton iconClassName='fa fa-search' onClick={_ => this.onSearch(this.refs.searchValue.getValue()) } />
         </div>

@@ -57,8 +57,7 @@ export default class AddContactForm extends Component {
       {
         this.props.fieldsmap.filter(field => !field.hidden && !field.internal).map(field =>
           <div>
-            <label style={{color: 'gray', fontSize: '0.9em'}}>{field.name}</label>
-            <TextField floatingLabelFixed fullWidth ref={field.value} />
+            <TextField floatingLabelFixed floatingLabelText={field.name} fullWidth ref={field.value} />
           </div>
           )
       }

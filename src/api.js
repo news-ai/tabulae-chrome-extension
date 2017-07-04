@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
-window.TABULAE_API_BASE = 'https://dev-dot-newsai-1166.appspot.com/api';
+// window.TABULAE_API_BASE = 'https://dev-dot-newsai-1166.appspot.com/api';
 // window.TABULAE_API_BASE = process.env.NODE_ENV === 'development' ? `https://dev-dot-newsai-1166.appspot.com/api` : `https://tabulae.newsai.org/api`;
+window.TABULAE_API_BASE = `https://tabulae.newsai.org/api`;
 
 export function get(endpoint) {
   return fetch(`${window.TABULAE_API_BASE}${endpoint}`, {
