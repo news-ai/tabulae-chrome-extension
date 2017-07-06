@@ -1,3 +1,4 @@
+/*global chrome*/
 import React, { Component } from 'react';
 import Select from 'react-select';
 import Snackbar from 'material-ui/Snackbar';
@@ -21,17 +22,23 @@ export default class ListView extends Component {
       fieldsmap: undefined,
       showListForm: true,
       alert: undefined,
-      showNewListView: false
+      showNewListView: false,
+      cacheExist: false
     };
     this.onListChange = this.onListChange.bind(this);
     this.onAfterContactSubmit = this.onAfterContactSubmit.bind(this);
     this.onUpdateLists = this.onUpdateLists.bind(this);
     this.onAlert = this.onAlert.bind(this);
     this.onFetchAllLists = this.onFetchAllLists.bind(this);
+    this.resumeCacheForm = this.resumeCacheForm.bind(this);
+    this.clearCache = this.clearCache.bind(this);
   }
 
   componentWillMount() {
     this.onFetchAllLists();
+    chrome.storage.sync.get('tabulaeChromeExtension', generalStore => {
+      if (generalStore) this.setState({cacheExist: true});
+    });
   }
 
   onFetchAllLists() {
@@ -68,8 +75,21 @@ export default class ListView extends Component {
     this.setState({alert: message});
   }
 
+  resumeCacheForm() {
+    chrome.storage.sync.get('tabulaeChromeExtension', generalStore => {
+      const store = generalStore.tabulaeChromeExtension;
+      if (store) {
+        this.onListChange(this.state.lists[store.listId]);
+      }
+    });
+  }
+
+  clearCache() {
+    chrome.storage.sync.clear();
+  }
+
   render() {
-    const {showNewListView, lists, listIds, selectedListId, fieldsmap, showListForm, alert} = this.state;
+    const {showNewListView, lists, listIds, selectedListId, fieldsmap, showListForm, alert, cacheExist} = this.state;
     const options = listIds.map(id => lists[id]);
 
     return (
@@ -83,6 +103,12 @@ export default class ListView extends Component {
         onChange={this.onListChange}
         value={selectedListId}
         />
+      {cacheExist &&
+        <span
+        className='left pointer'
+        style={{fontSize: '0.9em', color: grey600, margin: 5}}
+        onClick={selectedListId ? this.clearCache : this.resumeCacheForm}
+        >{selectedListId ? 'Clear Cache' : 'Resume Last Form'}</span>}
       {showNewListView ?
         <AddListForm
         style={{marginTop: 10}}
