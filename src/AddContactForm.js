@@ -1,3 +1,4 @@
+/*global chrome*/
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -9,8 +10,39 @@ export default class AddContactForm extends Component {
     super(props);
     this.state = {
       isSubmitting: false,
+      textObj: {},
+      dirty: false,
     };
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    chrome.storage.sync.get('tabulaeChromeExtension', generalStore => {
+      const store = generalStore.tabulaeChromeExtension;
+      if (store) {
+        if (store.listId === this.props.selectedListId) this.setState({textObj: store.text});
+      }
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.selectedListId !== nextProps.selectedListId) {
+      this.setState({textObj: {}, dirty: false});
+    }
+  }
+
+  onChange(fieldname, value) {
+    this.setState(
+      (state, props) => ({dirty: true, textObj: Object.assign({}, state.textObj, {[fieldname]: value})}),
+      _ => {
+        chrome.storage.sync.set({tabulaeChromeExtension: {
+          listId: this.props.selectedListId,
+          text: this.state.textObj
+        }}, function() {
+            // Notify that we saved.
+            console.log('Settings saved');
+          });
+      });
   }
 
   onSubmit() {
@@ -18,7 +50,7 @@ export default class AddContactForm extends Component {
     let customfields = [];
     this.props.fieldsmap.filter(field => !field.hidden && !field.internal)
     .map(field => {
-      const textvalue = this.refs[field.value].getValue();
+      const textvalue = this.state.textObj[field.value];
       if (field.customfield) {
         customfields = [...customfields, {value: textvalue, name: field.name}];
       } else {
@@ -44,7 +76,7 @@ export default class AddContactForm extends Component {
     })
     .then(response => {
       const list = response.data;
-      this.setState({isSubmitting: false});
+      this.setState({isSubmitting: false, dirty: false});
       this.props.onUpdateLists(list);
       this.props.onAlert(`Contact added to List: "${list.name}"`);
       this.props.onRefresh();
@@ -57,7 +89,15 @@ export default class AddContactForm extends Component {
       {
         this.props.fieldsmap.filter(field => !field.hidden && !field.internal).map(field =>
           <div>
-            <TextField floatingLabelFixed floatingLabelText={field.name} fullWidth ref={field.value} />
+            <TextField
+            floatingLabelFixed
+            fullWidth
+            floatingLabelText={field.name}
+            value={this.state.textObj[field.value]}
+            onChange={e => this.onChange(field.value, e.target.value)}
+            ref={field.value}
+            key={field.value}
+            />
           </div>
           )
       }

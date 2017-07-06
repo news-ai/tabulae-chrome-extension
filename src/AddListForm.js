@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import FontIcon from 'material-ui/FontIcon';
-import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {grey600} from 'material-ui/styles/colors';
 import * as api from './api';
@@ -31,7 +30,7 @@ export default class AddListForm extends Component {
   render() {
     return (
       <div style={this.props.style}>
-        <FontIcon onClick={this.props.onClose} className='fa fa-times pointer' style={{float: 'right', fontSize: '0.9em', color: grey600}} />
+        <FontIcon onClick={this.props.onClose} className='fa fa-times pointer' style={{float: 'right', color: grey600}} />
         <TextField style={{marginTop: 10}} fullWidth floatingLabelFixed floatingLabelText='New List Name'  ref='newListName'/>
         <div style={{margin: '10px 0'}} className='horizontal-center'>
           <RaisedButton

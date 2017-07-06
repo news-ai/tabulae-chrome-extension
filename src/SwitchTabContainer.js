@@ -8,7 +8,6 @@ export default class SwitchTabContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'AddContactView',
       refreshTab: undefined
     };
     this.onRefresh = this.onRefresh.bind(this);
@@ -20,8 +19,7 @@ export default class SwitchTabContainer extends Component {
   }
 
   render() {
-    const {currentTab, refreshTab} = this.state;
-    const className = 'large-6 medium-6 small-6 columns pointer';
+    const {refreshTab} = this.state;
     return (
       <div style={{height: '100%'}}>
         <Tabs tabItemContainerStyle={{backgroundColor: blue500}} >

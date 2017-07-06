@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 import {normalize, schema} from 'normalizr';
 import 'react-select/dist/react-select.css';
@@ -8,11 +7,9 @@ import * as api from './api';
 import AddContactForm from './AddContactForm';
 import AddListForm from './AddListForm';
 import {grey600} from 'material-ui/styles/colors';
-// import {listObj} from './data';
 
 const listSchema = new schema.Entity('lists');
 const listListSchema = [listSchema];
-// const mockLists = _ => Promise.resolve(listObj);
 
 export default class ListView extends Component {
   constructor(props) {
@@ -22,7 +19,6 @@ export default class ListView extends Component {
       lists: {},
       selectedListId: undefined,
       fieldsmap: undefined,
-      isSubmitting: false,
       showListForm: true,
       alert: undefined,
       showNewListView: false
@@ -73,7 +69,7 @@ export default class ListView extends Component {
   }
 
   render() {
-    const {showNewListView, lists, listIds, selectedListId, fieldsmap, isSubmitting, showListForm, alert} = this.state;
+    const {showNewListView, lists, listIds, selectedListId, fieldsmap, showListForm, alert} = this.state;
     const options = listIds.map(id => lists[id]);
 
     return (
@@ -98,7 +94,7 @@ export default class ListView extends Component {
         /> :
         <span
         className='right pointer'
-        style={{fontSize: '0.7em', color: grey600, margin: 5}}
+        style={{fontSize: '0.9em', color: grey600, margin: 5}}
         onClick={_ => this.setState({showNewListView: true})}
         >+ ADD NEW LIST</span>
       }

@@ -18,6 +18,7 @@
     "128": "icon_logo_64.png"
   },
   "permissions": [
+    "storage",
     "activeTab",
     "https://ajax.googleapis.com/",
     "*://*/*"
