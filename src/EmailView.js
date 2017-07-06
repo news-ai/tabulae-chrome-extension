@@ -5,7 +5,7 @@ import FontIcon from 'material-ui/FontIcon';
 import Paper from 'material-ui/Paper';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
-import {blue200, blue50, lightBlue50, grey600, grey400} from 'material-ui/styles/colors';
+import {blue200, blue50, grey600, grey400} from 'material-ui/styles/colors';
 import * as api from './api';
 import {normalize, schema} from 'normalizr';
 import moment from 'moment-timezone';

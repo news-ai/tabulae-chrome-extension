@@ -36,9 +36,11 @@ export default class ListView extends Component {
 
   componentWillMount() {
     this.onFetchAllLists();
-    chrome.storage.sync.get('tabulaeChromeExtension', ({tabulaeChromeExtension}) => {
-      if (tabulaeChromeExtension) this.setState({cacheExist: true});
-    });
+    if (process.env.NODE_ENV === 'production') {
+      chrome.storage.sync.get('tabulaeChromeExtension', ({tabulaeChromeExtension}) => {
+        if (tabulaeChromeExtension) this.setState({cacheExist: true});
+      });
+    }
   }
 
   onFetchAllLists() {

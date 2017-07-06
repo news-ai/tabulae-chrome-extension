@@ -17,12 +17,14 @@ export default class AddContactForm extends Component {
   }
 
   componentWillMount() {
-    chrome.storage.sync.get('tabulaeChromeExtension', generalStore => {
-      const store = generalStore.tabulaeChromeExtension;
-      if (store) {
-        if (store.listId === this.props.selectedListId) this.setState({textObj: store.text});
-      }
-    });
+    if (process.env.NODE_ENV === 'production') {
+      chrome.storage.sync.get('tabulaeChromeExtension', generalStore => {
+        const store = generalStore.tabulaeChromeExtension;
+        if (store) {
+          if (store.listId === this.props.selectedListId) this.setState({textObj: store.text});
+        }
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,28 +37,32 @@ export default class AddContactForm extends Component {
     this.setState(
       (state, props) => ({dirty: true, textObj: Object.assign({}, state.textObj, {[fieldname]: value})}),
       _ => {
-        chrome.storage.sync.set({tabulaeChromeExtension: {
-          listId: this.props.selectedListId,
-          text: this.state.textObj
-        }}, function() {
-            // Notify that we saved.
-            console.log('Settings saved');
-          });
+        if (process.env.NODE_ENV === 'production') {
+          chrome.storage.sync.set({tabulaeChromeExtension: {
+            listId: this.props.selectedListId,
+            text: this.state.textObj
+          }}, function() {
+              // Notify that we saved.
+              console.log('Settings saved');
+            });
+        }
       });
   }
 
   onSubmit() {
-    let contactBody = {};
     let customfields = [];
-    this.props.fieldsmap.filter(field => !field.hidden && !field.internal)
-    .map(field => {
-      const textvalue = this.state.textObj[field.value];
-      if (field.customfield) {
-        customfields = [...customfields, {value: textvalue, name: field.name}];
-      } else {
-        contactBody[field.value] = textvalue;
+    let contactBody = this.props.fieldsmap.reduce((acc, field) => {
+      if (!field.hidden && !field.internal) {
+        const textvalue = this.state.textObj[field.value];
+        if (field.customfield) {
+          customfields = [...customfields, {value: textvalue, name: field.name}];
+        } else {
+          acc[field.value] = textvalue;
+        }
       }
-    })
+      return acc;
+    }, {});
+    contactBody.customfields = customfields;
     contactBody.listid = this.props.selectedListId;
 
     const list = this.props.lists[this.props.selectedListId];
@@ -88,18 +94,14 @@ export default class AddContactForm extends Component {
       <div>
       {
         this.props.fieldsmap.filter(field => !field.hidden && !field.internal).map(field =>
-          <div>
-            <TextField
-            floatingLabelFixed
-            fullWidth
-            floatingLabelText={field.name}
-            value={this.state.textObj[field.value]}
-            onChange={e => this.onChange(field.value, e.target.value)}
-            ref={field.value}
-            key={field.value}
-            />
-          </div>
-          )
+          <TextField
+          floatingLabelFixed
+          fullWidth
+          floatingLabelText={field.name}
+          value={this.state.textObj[field.value] || ''}
+          onChange={e => this.onChange(field.value, e.target.value)}
+          key={field.value}
+          />)
       }
         <div style={{margin: '10px 0'}} className='horizontal-center'>
           <RaisedButton

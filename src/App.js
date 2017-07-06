@@ -8,7 +8,8 @@ import * as api from './api';
 
 const NotLoggedIn = _ => (
   <div style={{height: '100%'}} className='vertical-center horizontal-center'>
-    <span>Please log in at <a href='https://tabulae.newsai.co' target='_blank'>Tabulae</a> to access the Tabulae Chrome extension for Contact Quick-Add and Email QuickView.</span>
+    <span>Please log in at
+    <a href='https://tabulae.newsai.co' target='_blank' rel='noopener noreferrer'>Tabulae</a> to access the Tabulae Chrome extension for Contact Quick-Add and Email QuickView.</span>
   </div>
   );
 
@@ -32,7 +33,10 @@ class App extends Component {
   componentWillMount() {
     api.get('/users/me')
     .then(response => this.setState({loggedIn: true, person: response.data}))
-    .catch(err => this.setState({loggedIn: false}));
+    .catch(err => {
+      console.log(err);
+      this.setState({loggedIn: false})
+    });
   }
 
   alert(message) {
