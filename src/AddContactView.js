@@ -36,8 +36,8 @@ export default class ListView extends Component {
 
   componentWillMount() {
     this.onFetchAllLists();
-    chrome.storage.sync.get('tabulaeChromeExtension', generalStore => {
-      if (generalStore) this.setState({cacheExist: true});
+    chrome.storage.sync.get('tabulaeChromeExtension', ({tabulaeChromeExtension}) => {
+      if (tabulaeChromeExtension) this.setState({cacheExist: true});
     });
   }
 
@@ -86,6 +86,8 @@ export default class ListView extends Component {
 
   clearCache() {
     chrome.storage.sync.clear();
+    this.onListChange(undefined);
+    this.setState({cacheExist: false});
   }
 
   render() {
