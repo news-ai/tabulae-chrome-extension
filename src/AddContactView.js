@@ -35,16 +35,21 @@ export default class ListView extends Component {
   }
 
   componentWillMount() {
-    this.onFetchAllLists();
-    if (process.env.NODE_ENV === 'production') {
-      chrome.storage.sync.get('tabulaeChromeExtension', ({tabulaeChromeExtension}) => {
-        if (tabulaeChromeExtension) this.setState({cacheExist: true});
-      });
-    }
+    this.onFetchAllLists()
+    .then(_ => {
+      if (process.env.NODE_ENV === 'production') {
+        chrome.storage.sync.get('tabulaeChromeExtension', ({tabulaeChromeExtension}) => {
+          if (tabulaeChromeExtension) {
+            this.setState({cacheExist: true});
+            if (tabulaeChromeExtension.listId) this.onListChange(this.state.lists[tabulaeChromeExtension.listId]);
+          }
+        });
+      }
+    })
   }
 
   onFetchAllLists() {
-    api.get(`/lists?limit=50&offset=0&order=-Created`)
+    return api.get(`/lists?limit=50&offset=0&order=-Created`)
     .then(response => {
       const res = normalize(response.data, listListSchema);
       this.setState(({lists, listIds}) => ({
