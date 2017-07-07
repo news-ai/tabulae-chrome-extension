@@ -70,6 +70,10 @@ export default class ListView extends Component {
 
   onAfterContactSubmit() {
     this.setState({showListForm: false});
+    chrome.storage.sync.set({tabulaeChromeExtension: {
+      listId: this.state.selectedListId,
+      text: {}
+    }});
     setTimeout(_ => this.setState({showListForm: true}), 10);
   }
 

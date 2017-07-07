@@ -1,12 +1,10 @@
 {
   "manifest_version": 2,
 
-  "name": "NewsAI Tabulae QuickTab",
-  "description": "Tabulae QuickTab is meant for NewsAI Tabulae existing users to quickly add contacts and check email statistics on any webpage.",
-  "version": "1.0",
-  "background": {
-    "scripts": ["background.js"]
-  },
+  "name": "NewsAI -- Tabulae QuickTab",
+  "short_name": "Tabulae QuickTab",
+  "description": "Tabulae QuickTab is meant for NewsAI Tabulae existing users to quickly add contacts and check sent email stats on any webpage.",
+  "version": "0.0.0.2",
   "browser_action": {
     "default_icon": {
       "16": "icon_logo_16.png",

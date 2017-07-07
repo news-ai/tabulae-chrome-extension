@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
 import FontIcon from 'material-ui/FontIcon';
 import * as api from './api';
 
@@ -12,6 +13,7 @@ export default class AddContactForm extends Component {
       isSubmitting: false,
       textObj: {},
       dirty: false,
+      alert: undefined
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -66,7 +68,7 @@ export default class AddContactForm extends Component {
     contactBody.listid = this.props.selectedListId;
 
     const list = this.props.lists[this.props.selectedListId];
-    this.setState({isSubmitting: true});
+    this.setState({isSubmitting: true, alert: "Contact saving... Don't close the window."});
 
     return api.post(`/contacts`, [contactBody])
     .then(response => {
@@ -82,7 +84,7 @@ export default class AddContactForm extends Component {
     })
     .then(response => {
       const list = response.data;
-      this.setState({isSubmitting: false, dirty: false});
+      this.setState({isSubmitting: false, alert: undefined, dirty: false});
       this.props.onUpdateLists(list);
       this.props.onAlert(`Contact added to List: "${list.name}"`);
       this.props.onRefresh();
@@ -103,6 +105,7 @@ export default class AddContactForm extends Component {
           key={field.value}
           />)
       }
+        <Snackbar open={this.state.alert} message={this.state.alert} />
         <div style={{margin: '10px 0'}} className='horizontal-center'>
           <RaisedButton
           primary
