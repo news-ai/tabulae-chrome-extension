@@ -38,7 +38,9 @@ class App extends Component {
       const person = response.data;
       this.setState({loggedIn: true, person});
       if (process.env.NODE_ENV === 'production') {
-        mixpanel.track('open_chrome_extension', {name: person.name, email: person.email});
+        mixpanel.person.set({email: person.email, name: person.name});
+        mixpanel.identify(person.id);
+        mixpanel.track('open_chrome_extension');
       }
     })
     .catch(err => {
