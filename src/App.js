@@ -1,3 +1,5 @@
+
+/*global mixpanel*/
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import SwitchTabContainer from './SwitchTabContainer';
@@ -32,7 +34,13 @@ class App extends Component {
 
   componentWillMount() {
     api.get('/users/me')
-    .then(response => this.setState({loggedIn: true, person: response.data}))
+    .then(response => {
+      const person = response.data;
+      this.setState({loggedIn: true, person});
+      if (process.env.NODE_ENV === 'production') {
+        mixpanel.track('open_chrome_extension', {name: person.name, email: person.email});
+      }
+    })
     .catch(err => {
       console.log(err);
       this.setState({loggedIn: false})
